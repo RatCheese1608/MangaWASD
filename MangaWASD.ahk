@@ -1,9 +1,21 @@
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-#Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+;OPTIMIZATIONS START             ;Sum random script optimization taken from https://www.autohotkey.com/boards/viewtopic.php?t=6413
+#NoEnv                           ;I don't even know what half the shit does tho.
+#MaxHotkeysPerInterval 99000000  ;All I care is that now it work's with more than 50 ms delays
+#HotkeyInterval 99000000
+#KeyHistory 0
+ListLines Off
+Process, Priority, , A
+SetBatchLines, -1
+SetKeyDelay, -1, -1
+SetMouseDelay, -1
+SetDefaultMouseSpeed, 0
+SetWinDelay, -1
+SetControlDelay, -1
+SendMode Input
+;OPTIMIZATIONS END
 
-SPEED:=49				  ;delay in milliseconds
+;DllCall("Sleep",UInt,SPEED)			;Precise Sleep Function to Wait SPEED milliseconds
+SPEED:=69								          ;The delay time
 
 #!m::Suspend, Toggle
 
@@ -12,17 +24,15 @@ SPEED:=49				  ;delay in milliseconds
 +a::Send, {Left}
 
 +w::
-While GetKeyState("w") && GetKeyState("Shift")
-{
-Send {Wheelup}
-Sleep SPEED
+While GetKeyState("W") && GetKeyState ("Shift") {
+	Send {Wheelup}
+	DllCall("Sleep",UInt,SPEED)
 }
-return
+Return
 
 +s::
-While GetKeyState("s") && GetKeyState("Shift")
-{
-Send {Wheeldown}
-Sleep SPEED
+While GetKeyState("S") && GetKeyState ("Shift") {
+	Send {Wheeldown}
+	DllCall("Sleep",UInt,SPEED)
 }
-return
+Return
