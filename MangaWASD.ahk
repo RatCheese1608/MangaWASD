@@ -14,25 +14,47 @@ SetControlDelay, -1
 SendMode Input
 ;OPTIMIZATIONS END
 
-;DllCall("Sleep",UInt,SPEED)			;Precise Sleep Function to Wait SPEED milliseconds
-SPEED:=69								          ;The delay time
+SPEED:=26					;The default delay time
+boolL:=0					;Just a random torf int variable
 
-#!m::Suspend, Toggle
+#!m::Suspend, Toggle				;Suspends the script by pressing WIN+ALT+M
 
-+d::Send, {Right}
+#!l::						;Enables 5 Wheel for SHIFT+A and SHIFT+D
+if (boolL==0) {
+	boolL:=1
+} else if (boolL==1) {
+	boolL:=0
+} return
 
-+a::Send, {Left}
+;Calls up an input system to enable dynamic speed changing without reloading the script. Defaults to 26.
+#!s::InputBox, SPEED, Speed Setting, Enter Speed, , 192, 144, , , , 10, %SPEED%
 
-+w::
+;Sends the right arrow on SHIFT+D press if 5 Wheel disabled [WIN+ALT+L] (made for sites with list view). Sends 5 wheeldown when 5 Wheel enabled
++d::
+if (boolL==0) {
+	Send, {Right}
+} else if (boolL==1) {
+	Send, {WheelDown 5}
+} return
+
+;Sends the left arrow on SHIFT+A press if 5 Wheel disabled [WIN+ALT+L] (made for sites with list view). Sends 5 wheelup when 5 Wheel enabled
++a::
+if (boolL==0) {
+	Send, {Left}
+} else if (boolL==1) {
+	Send, {WheelUp 5}
+} return
+
++w::						;Sends the up arrow on hotkey press
 While GetKeyState("W") && GetKeyState ("Shift") {
-	Send {Wheelup}
-	DllCall("Sleep",UInt,SPEED)
+	sleep speed
+	Send {up}
 }
 Return
 
-+s::
++s::						;Sends the down arrow on hotkey press
 While GetKeyState("S") && GetKeyState ("Shift") {
-	Send {Wheeldown}
-	DllCall("Sleep",UInt,SPEED)
+	sleep speed
+	Send {down}
 }
 Return
