@@ -13,4 +13,5 @@ Creates a scrolling method using AutoHotKey and the shift+W,A,S,D as the scroll 
 3. Use `SHIFT` with `W`, `A`, `S` or `D` to scroll `UP`, `LEFT`, `DOWN`, `RIGHT` respectively.
 
 > Press `WIN`+`ALT`+`L` to enable 5 Wheel, which will allow the use of `SHIFT` with `A` or `D`, to scroll 5 times up or down respectively. (Made for sites with list view).
+
 > To change the speed you can press `WIN`+`ALT`+`S` and it will open up a input box showing the current speed and will close within 9 seconds. Recommended to use 18-28. A larger number means a slower speed. Using the recommended speed will make sure that the scrolling is still smooth and not too fast.
