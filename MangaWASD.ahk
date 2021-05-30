@@ -1,60 +1,85 @@
-;OPTIMIZATIONS START             ;Sum random script optimization taken from https://www.autohotkey.com/boards/viewtopic.php?t=6413
-#NoEnv                           ;I don't even know what half the shit does tho.
-#MaxHotkeysPerInterval 99000000  ;All I care is that now it work's with more than 50 ms delays
+;OPTIMIZATIONS START
+;#NoEnv
+#MaxHotkeysPerInterval 99000000
 #HotkeyInterval 99000000
 #KeyHistory 0
-ListLines Off
-Process, Priority, , A
-SetBatchLines, -1
-SetKeyDelay, -1, -1
-SetMouseDelay, -1
-SetDefaultMouseSpeed, 0
-SetWinDelay, -1
-SetControlDelay, -1
-SendMode Input
 ;OPTIMIZATIONS END
 
-SPEED:=26					;The default delay time
-boolL:=0					;Just a random torf int variable
+#UseHook
 
-#!m::Suspend, Toggle				;Suspends the script by pressing WIN+ALT+M
+SPEED:=52					;The default delay time
+boolL:=True
 
-#!l::						;Enables 5 Wheel for SHIFT+A and SHIFT+D
-if (boolL==0) {
-	boolL:=1
-} else if (boolL==1) {
-	boolL:=0
-} return
+f1:: Reload
 
-;Calls up an input system to enable dynamic speed changing without reloading the script. Defaults to 26.
+#!l:: boolL:=!boolL
 #!s::InputBox, SPEED, Speed Setting, Enter Speed, , 192, 144, , , , 10, %SPEED%
 
-;Sends the right arrow on SHIFT+D press if 5 Wheel disabled [WIN+ALT+L] (made for sites with list view). Sends 5 wheeldown when 5 Wheel enabled
-+d::
-if (boolL==0) {
-	Send, {Right}
-} else if (boolL==1) {
-	Send, {WheelDown 5}
+#+s:: send #+s
+
+#Space::
+;msgbox, , Start, Start, 0.3
+T:=!T
+Tooltip Operating,10,10
+sleep 100
+Loop {
+	while GetKeyState("w") {
+		send {WheelUp}
+		sleep SPEED
+	}
+	while GetKeyState("a") {
+		if boolL {
+			send {Left}
+			sleep 300
+		} else {
+			send {WheelUp 5}
+			sleep 90
+		}
+	}
+	while GetKeyState("s") {
+		send {WheelDown}
+		sleep SPEED
+	}
+	while GetKeyState("d") {
+		if boolL {
+			send {Right}
+			sleep 300
+		} else {
+			send {WheelDown 5}
+			sleep 90
+		}
+	}
+	Input, out, L1 T0.01 M I C B V E,wasd{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}
+	
+	while GetKeyState("w") {
+		send {WheelUp}
+		sleep SPEED
+	}
+	while GetKeyState("a") {
+		if boolL {
+			send {Left}
+			sleep 300
+		} else {
+			send {WheelUp 5}
+			sleep 90
+		}
+	}
+	while GetKeyState("s") {
+		send {WheelDown}
+		sleep SPEED
+	}
+	while GetKeyState("d") {
+		if boolL {
+			send {Right}
+			sleep 300
+		} else {
+			send {WheelDown 5}
+			sleep 90
+		}
+	}
+	if (out!="") {
+		Tooltip
+		break
+	}
+	sleep 1
 } return
-
-;Sends the left arrow on SHIFT+A press if 5 Wheel disabled [WIN+ALT+L] (made for sites with list view). Sends 5 wheelup when 5 Wheel enabled
-+a::
-if (boolL==0) {
-	Send, {Left}
-} else if (boolL==1) {
-	Send, {WheelUp 5}
-} return
-
-+w::						;Sends the up arrow on hotkey press
-While GetKeyState("W") && GetKeyState ("Shift") {
-	sleep speed
-	Send {up}
-}
-Return
-
-+s::						;Sends the down arrow on hotkey press
-While GetKeyState("S") && GetKeyState ("Shift") {
-	sleep speed
-	Send {down}
-}
-Return
