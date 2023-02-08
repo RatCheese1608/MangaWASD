@@ -10,7 +10,7 @@ Creates a scrolling method using AutoHotKey and the shift+W,A,S,D as the scroll 
 ## How To Use
 1. Make sure to AutoHotKey installed.
 2. You can compile the script first and then run the exe or just directly run the script.
-3. Press `WIN` with `SPACE`, to enable scrolling
+3. Press `WIN`, `ALT` and `X`, to enable scrolling
 4. Press `W`, `A`, `S` or `D` to scroll `UP`, `LEFT`, `DOWN`, `RIGHT` respectively.
 5. Press any key to disable it. (Known problem, gotta press the key kinda long sometimes, I made a tooltip so you can know.)
 
